@@ -1,4 +1,5 @@
-# Das green haouse Project
+# The Green House Project
+---
 - Oktay
 - Isabell
 - Niclas
