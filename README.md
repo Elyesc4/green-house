@@ -1,8 +1,6 @@
 # The Green House Project
 
-> Oktay
-> Temperatur / Feuchtigkeit
-> ventilation
+> (Trello Board)[https://trello.com/b/E3ehaCf5/projeckt]
 
 
 ---
