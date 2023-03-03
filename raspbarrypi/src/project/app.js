@@ -5,6 +5,7 @@ const express = require('express');
 const expressLayouts = require('express-ejs-layouts')
 const fs = require('fs');
 const formData = require('express-form-data');
+// const bootstrap = require('bootstrap')
 
 const path = require('path');
 const app = express()
@@ -30,9 +31,8 @@ app.set('view engine', 'ejs');
 // bodyParser.urlencoded({ extended: true });
 
 app.get('/', (req, res) => {
-  console.log(pathLayouts)
   res.render('index', {
-    title: 'Home'
+    title: 'Home 🏡' //req
   });
 })
 
