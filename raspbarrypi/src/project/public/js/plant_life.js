@@ -6,7 +6,7 @@
 //---INITIATION---
 
 ///canvas  (*canvas width & height must be equal to retain aspect ratio)
-var canvasContainerDiv = document.getElementById("canvas_container_div");
+// var canvasContainerDiv = document.getElementById("canvas_container_div");
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var canvRatio = 1;//0.8;  // canvas ratio, as canvas size to lowest of window width or height
@@ -18,7 +18,7 @@ var skins = [], skinCount = 0;
 var worldTime = 0;  // time as frame count
 
 ///settings
-var gravity = 0.009;  // (rate of y-velocity increase per frame per point mass of 1)
+var gravity = 0.006;  // (rate of y-velocity increase per frame per point mass of 1)
 var rigidity = 10;  // global span rigidity (as iterations of position accuracy refinement)
 var friction = 0.999;  // (proportion of previous velocity after frame refresh)
 var bounceLoss = 0.9;  // (proportion of previous velocity after bouncing)
@@ -67,13 +67,13 @@ function Skin(points_array, color) {
 
 ///scales canvas to window
 function scaleToWindow() { //todo Check if necesary
-    if (window.innerWidth > window.innerHeight) {
-        canvasContainerDiv.style.width = window.innerHeight * canvRatio + "px";
+    // if (window.innerWidth > window.innerHeight) {
+        // canvasContainerDiv.style.width = window.innerHeight * canvRatio + "px";
         // canvasContainerDiv.style.width = canvasContainerDiv.style.height;
-    } else {
+    // } else {
         // canvasContainerDiv.style.width = window.innerWidth * canvRatio + "px";
         // canvasContainerDiv.style.height = canvasContainerDiv.style.width;
-    }
+    // }
 }
 
 ///converts percentage to canvas x value
@@ -384,7 +384,7 @@ function Plant(xLocation) {
     this.maxSegmentWidth = Tl.rfb(11, 13);  // maximum segment width (in pixels)
     this.maxTotalSegments = Tl.rib(10, 20);  // maximum total number of segments
     this.firstLeafSegment = Tl.rib(2, 4);  // (segment on which first leaf set grows)
-    this.leafFrequency = Tl.rib(2, 3);  // (number of segments until next leaf set)
+    this.leafFrequency = Tl.rib(1.5, 2.5);  // (number of segments until next leaf set)
     this.maxLeaflength = this.maxSegmentWidth * Tl.rfb(4, 7);  // maximum leaf length at maturity
     this.leafGrowthRate = this.forwardGrowthRate * Tl.rfb(1.4, 1.6);  // leaf growth rate
     //base segment
@@ -805,7 +805,7 @@ function renderShadows() {
 
 //---DISPLAY---
 
-for (var i = 0; i < 25; i++) {
+for (var i = 0; i < 10; i++) {
     createPlant();
 }
 
@@ -813,10 +813,11 @@ function display() {
     runVerlet();
     if (worldTime % worldSpeed === 0) { growPlants(); }
     renderPlants();
-    shedSunlight();
-    renderShadows();
+    // shedSunlight();
+    // renderShadows();
     window.requestAnimationFrame(display);
 }
 
-createSunRays();
+// createSunRays();
+
 display();
