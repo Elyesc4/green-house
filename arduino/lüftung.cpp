@@ -1,40 +1,44 @@
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
-#include <Adafruit_BME280.h>
+#include <Adafruit_Si7021.h>
 
-Adafruit_BME280 bme; // I2C
+// Definiere den Pin des Lüfters
+#define FAN_PIN 9
 
-const int fanPin = 12; // Pin, an dem der Lüfter angeschlossen ist
-const float humidityThreshold = 50; // Schwellwert für die Luftfeuchtigkeit, ab dem der Lüfter eingeschaltet werden soll
+// Definiere den Schwellenwert der Temperatur in Grad Celsius
+#define TEMP_THRESHOLD 30
+
+// Definiere den Schwellenwert der relativen Luftfeuchtigkeit in Prozent
+#define HUMIDITY_THRESHOLD 60
+
+Adafruit_Si7021 sensor = Adafruit_Si7021();
 
 void setup() {
   Serial.begin(9600);
-  pinMode(fanPin, OUTPUT); // Setze den Lüfter-Pin als Ausgang
-  if (!bme.begin(0x76)) {
-    Serial.println("Could not find a valid BME280 sensor, check wiring!");
-    while (1);
+  pinMode(FAN_PIN, OUTPUT);
+  if (!sensor.begin()) {
+    Serial.println("Sensor konnte nicht gefunden werden, bitte überprüfen Sie die Verbindung!");
+    while (true);
   }
 }
 
 void loop() {
-  float temperature = bme.readTemperature();
-  float humidity = bme.readHumidity();
+  float temperature = sensor.readTemperature();
+  // Serial.print("Temperatur: ");
+  // Serial.print(temperature);
+  // Serial.println(" *C");
 
-  Serial.print("Temperature = ");
-  Serial.print(temperature);
-  Serial.println(" *C");
+  float humidity = sensor.readHumidity();
+  // Serial.print("Luftfeuchtigkeit: ");
+  // Serial.print(humidity);
+  // Serial.println(" %");
 
-  Serial.print("Humidity = ");
-  Serial.print(humidity);
-  Serial.println(" %");
-
-  if (humidity > humidityThreshold) {
-    digitalWrite(fanPin, HIGH); // Lüfter einschalten
-    Serial.println("Fan ON");
+  // Wenn die Temperatur den Schwellenwert überschreitet und die relative Luftfeuchtigkeit unter dem Schwellenwert liegt, schalte den Lüfter ein
+  if (temperature <= TEMP_THRESHOLD || humidity < HUMIDITY_THRESHOLD) {
+    digitalWrite(FAN_PIN, LOW);
   } else {
-    digitalWrite(fanPin, LOW); // Lüfter ausschalten
-    Serial.println("Fan OFF");
+    digitalWrite(FAN_PIN, HIGH);
   }
 
-  delay(2000);
+  delay(1000);
 }
