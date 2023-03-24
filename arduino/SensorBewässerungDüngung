@@ -1,0 +1,50 @@
+#include <Arduino.h>
+
+const int wassersilo_voll = 5;
+const int duengersilo_voll = 4;
+const int wassersilo_halb = 3;
+const int duengersilo_halb = 2;
+const int feuchtigkeitssensor = A0;
+const int duengerpumpe = 9;
+const int wasserpumpe = 8;
+
+const unsigned long duengerIntervall = 5 * 60 * 1000; // 5 Minuten
+const unsigned long duengerDauer = 2000; // 2 Sekunden
+const int feuchtigkeitsSchwelle = 500; // Wert für Feuchtigkeitssensor
+
+unsigned long letzteDuengerZeit = 0;
+
+void setup() {
+  pinMode(wassersilo_voll, INPUT);
+  pinMode(duengersilo_voll, INPUT);
+  pinMode(wassersilo_halb, INPUT);
+  pinMode(duengersilo_halb, INPUT);
+  pinMode(wasserpumpe, OUTPUT);
+  pinMode(duengerpumpe, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int feuchtigkeit = analogRead(feuchtigkeitssensor);
+  int wasserstand = digitalRead(wassersilo_halb);
+  int duengerstand = digitalRead(duengersilo_halb);
+  unsigned long aktuelleZeit = millis();
+
+  Serial.print("Feuchtigkeit: ");
+  Serial.println(feuchtigkeit);
+
+  if (feuchtigkeit < feuchtigkeitsSchwelle && wasserstand == HIGH) {
+    digitalWrite(wasserpumpe, HIGH);
+  } else {
+    digitalWrite(wasserpumpe, LOW);
+  }
+
+  if (aktuelleZeit - letzteDuengerZeit >= duengerIntervall && duengerstand == HIGH) {
+    digitalWrite(duengerpumpe, HIGH);
+    delay(duengerDauer);
+    digitalWrite(duengerpumpe, LOW);
+    letzteDuengerZeit = aktuelleZeit;
+  }
+
+  delay(1000); // Wartezeit zwischen den Durchläufen (1 Sekunde)
+}
