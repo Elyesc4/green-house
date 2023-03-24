@@ -9,14 +9,18 @@ body
     background: linear-gradient(#151a1d, #272a35)
     color: #ffffff
 
+p
+    margin: 0
+    padding: 0
+
 ul
     list-style: none
     padding: 0
     margin: 0
     height: 100%
-    a, a:hover, a:focus, a:active
-        text-decoration: none
-        color: inherit
+//     a, a:hover, a:focus, a:active
+//         text-decoration: none
+//         color: inherit
 
 #mobile_nav
     top: 92%
@@ -25,6 +29,9 @@ ul
     // background: linear-gradient(0deg, #006400, #00000000 80%)
 
 #light
+    &[data-state='off']
+        &:after 
+            background: linear-gradient(90deg, darken(#1336ff, 30%) 30%, darken(#ff0055, 30%) 70%,)
     &:after 
         position: absolute
         content: ""
@@ -40,3 +47,7 @@ ul
 canvas
     width: 100%
     height: 100%
+
+// .card
+//     div
+//         background-color: #ffffff

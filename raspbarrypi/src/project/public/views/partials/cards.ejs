@@ -1,0 +1,43 @@
+<% Object.keys(sensorData).forEach(function(key) { %>
+    <div class="card text-bg-dark mb-2 p-2 d-flex flex-row justify-content-between">
+        <% switch (key) { 
+            case 'temperature' : %>
+                <div>
+                    <h3>Temperatur</h3>
+                    <p>
+                        <%= Math.round(sensorData[key]) %>&deg;C
+                    </p>
+                </div>
+                <div>
+                    <i class="fa-solid fa-temperature-half"></i>
+                </div>
+            <% break; 
+            case 'humidity' : %>
+                <div>
+                    <h3>Luftfeuchtigkeit</h3>
+                    <p>
+                        <%= Math.round(sensorData[key]) %> %
+                    </p>
+                </div>
+                <div>
+                    <!-- <i class="fa-regular fa-droplet-percent"></i> -->
+                    <i class="fa-solid fa-percent"></i>
+                </div>
+            <% break; 
+            case 'lux_analog_value' : %>
+                <div>
+                    <h3>LEDs</h3>
+                    <p>
+                        <%= sensorData[key]>= 800 ? 'On' : 'Off' %>
+                    </p>
+                </div>
+                <div>
+                    <% if (sensorData[key]>= 800) { %>
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <% } else { %>
+                            <i class="fa-regular fa-lightbulb"></i>
+                            <% } %>
+                </div>
+            <% break; }%>
+    </div>
+<% }); %>

@@ -1,4 +1,3 @@
-#include <Wire.h>
 #include "Adafruit_Si7021.h"
 
 // @osl Temperatur & Luftfeuchtigkeit regulierung
@@ -32,10 +31,11 @@ void loop()
     float humidity = sensor.readHumidity();
     float lux_analog_value = analogRead(LIGHT_SENSOR_PIN);
 
-//    Serial.println("Hello from Arduino!");
+    Serial.println("{\"temperature\": " + String(temperature) + ", \"humidity\": " + String(humidity) + ", \"lux_analog_value\": " + String(lux_analog_value) + "}");
     setFan(temperature, humidity);
     setLEDs(lux_analog_value);
-    delay(500);
+    delay(3600000); //1 stunde
+    // delay(5000);
 }
 
 void setFan(float temperature, float humidity)
