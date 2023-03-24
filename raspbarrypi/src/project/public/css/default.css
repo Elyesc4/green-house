@@ -11,15 +11,16 @@ body {
   color: #ffffff;
 }
 
+p {
+  margin: 0;
+  padding: 0;
+}
+
 ul {
   list-style: none;
   padding: 0;
   margin: 0;
   height: 100%;
-}
-ul a, ul a:hover, ul a:focus, ul a:active {
-  text-decoration: none;
-  color: inherit;
 }
 
 #mobile_nav {
@@ -28,6 +29,9 @@ ul a, ul a:hover, ul a:focus, ul a:active {
   height: 8%;
 }
 
+#light[data-state=off]:after {
+  background: linear-gradient(90deg, #001279 30%, #660022 70%);
+}
 #light:after {
   position: absolute;
   content: "";
